@@ -15,12 +15,6 @@ spring:
     properties:
       hibernate.format_sql: true
 
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-    mode: HTML
-    encoding: UTF-8
 
   jwt:
     signerKey: "44G4LjP6LKI6ECmzy8p5oocl+CLSyjcKca+rNxiA3bajEWAJVPvaA+16f/J7d8dz"

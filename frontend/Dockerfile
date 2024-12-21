@@ -1,22 +1,22 @@
-FROM node:20
-
-# Tạo thư mục làm việc
+# Base stage for dependencies
+FROM node:20 AS deps
 WORKDIR /app
-
-# Copy file package
 COPY package*.json ./
+RUN npm install --frozen-lockfile
 
-# Cài đặt dependencies
-RUN npm install
-
-# Copy toàn bộ mã nguồn
+# Build stage
+FROM node:20 AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Generate type
 RUN npm run build
 
-# Expose port
+# Runtime stage
+FROM node:20 AS runtime
+WORKDIR /app
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package*.json ./
+RUN npm install --production --frozen-lockfile
 EXPOSE 3000
-
-# Chạy ứng dụng
 CMD ["npm", "start"]

@@ -30,7 +30,6 @@ export default function Home() {
       try {
         const userData = await me(token);
         setUser(userData?.result);
-        toast.success('User details fetched successfully!');
       } catch (error) {
         console.error('Failed to fetch user details:', error);
         toast.error('Failed to fetch user details.');
